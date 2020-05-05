@@ -7,7 +7,7 @@ import AddFoodForm from "./AddFoodForm";
 import { QuantityTypeContext } from "./QuantityTypeProvider";
 import Food from "./Food";
 
-export default ({ addIngredient }) => {
+export default ({ addIngredient, mealMakerTracker }) => {
   const { foods } = useContext(FoodContext);
   const { foodTypes } = useContext(FoodTypeContext);
   const { quantityTypes } = useContext(QuantityTypeContext);
@@ -27,9 +27,8 @@ export default ({ addIngredient }) => {
       <ul className="foods">
         {userFoods.map((food) => {
           const foodType = foodTypes.find((fT) => fT.id === food.foodTypeId);
-          const quantityType = quantityTypes.find(
-            (qT) => qT.id === food.quantityTypeId
-          );
+          const quantityType =
+            quantityTypes.find((qT) => qT.id === food.quantityTypeId) || {};
 
           return (
             <Food
@@ -38,6 +37,7 @@ export default ({ addIngredient }) => {
               foodType={foodType}
               food={food}
               addIngredient={addIngredient}
+              mealMakerTracker={mealMakerTracker}
             />
           );
         })}
