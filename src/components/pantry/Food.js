@@ -1,8 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FoodContext } from "./FoodProvider";
+import AddedFoodQuantity from "./AddedFoodQuantity";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-export default ({ food, quantityType, foodType, addIngredient }) => {
+export default ({
+  mealMakerTracker,
+  food,
+  quantityType,
+  foodType,
+  addIngredient,
+}) => {
   const { releaseFood } = useContext(FoodContext);
+
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
+
   return (
     <>
       <section className="food">
@@ -19,13 +31,7 @@ export default ({ food, quantityType, foodType, addIngredient }) => {
           Carbohydrate: {food.carbohydrate}
         </div>
         <div className="food__sugar">Sugar: {food.sugar}</div>
-        <button
-          onClick={() => {
-            addIngredient(food);
-          }}
-        >
-          Add To Meal
-        </button>
+        <button onClick={toggle}>Add To Meal</button>
         <button
           onClick={() => {
             releaseFood(food.id);
@@ -34,6 +40,17 @@ export default ({ food, quantityType, foodType, addIngredient }) => {
           Remove
         </button>
       </section>
+
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalBody>
+          <AddedFoodQuantity
+            toggle={toggle}
+            addIngredient={addIngredient}
+            mealMakerTracker={mealMakerTracker}
+            food={food}
+          />
+        </ModalBody>
+      </Modal>
     </>
   );
 };
