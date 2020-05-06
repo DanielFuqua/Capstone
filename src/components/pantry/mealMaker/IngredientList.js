@@ -4,8 +4,7 @@ import Ingredient from "./Ingredient";
 export default ({
   addIngredient,
   ingredients,
-  addIngredientQuantity,
-  ingredientQuantity,
+  mealMakerTracker,
   mealTrackerObject,
 }) => {
   return (
@@ -18,8 +17,7 @@ export default ({
             <Ingredient
               addIngredient={addIngredient}
               food={food}
-              addIngredientQuantity={addIngredientQuantity}
-              ingredientQuantity={ingredientQuantity}
+              mealMakerTracker={mealMakerTracker}
               quantity={quantity}
             />
           );

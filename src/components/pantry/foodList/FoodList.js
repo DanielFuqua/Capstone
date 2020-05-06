@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import "./Foods.css";
+import "../Foods.css";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { FoodContext } from "./FoodProvider";
 import { FoodTypeContext } from "./FoodTypeProvider";
 import AddFoodForm from "./AddFoodForm";
-import { QuantityTypeContext } from "./QuantityTypeProvider";
+import { QuantityTypeContext } from "../QuantityTypeProvider";
 import Food from "./Food";
 
 export default ({ addIngredient, mealMakerTracker }) => {

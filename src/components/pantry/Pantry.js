@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FoodList from "./FoodList";
+import FoodList from "./foodList/FoodList";
 import "../Layout.css";
 import "../PantryPal.css";
 import MealMakerForm from "./mealMaker/MealMakerForm";

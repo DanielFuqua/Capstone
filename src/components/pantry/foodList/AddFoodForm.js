@@ -1,8 +1,8 @@
 import React, { useContext, useRef } from "react";
-import "./Foods.css";
+import "../Foods.css";
 import { FoodContext } from "./FoodProvider";
 import { FoodTypeContext } from "./FoodTypeProvider";
-import { QuantityTypeContext } from "./QuantityTypeProvider";
+import { QuantityTypeContext } from "../QuantityTypeProvider";
 
 export default (props) => {
   const { addFood } = useContext(FoodContext);

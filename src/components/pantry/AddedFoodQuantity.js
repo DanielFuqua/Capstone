@@ -26,10 +26,13 @@ export default ({ food, addIngredient, mealMakerTracker, toggle }) => {
         onClick={(e) => {
           e.preventDefault();
           const chosenQuantity = parseInt(quantity.current.value);
-
-          addIngredient(food);
-          mealMakerTracker(food.id, chosenQuantity);
-          toggle();
+          if (chosenQuantity >= 1) {
+            addIngredient(food);
+            mealMakerTracker(food.id, chosenQuantity);
+            toggle();
+          } else {
+            window.alert("Please enter a valid quantity");
+          }
         }}
       >
         Add

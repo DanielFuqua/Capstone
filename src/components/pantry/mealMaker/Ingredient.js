@@ -10,33 +10,62 @@ export default ({ food, addIngredient, quantity, mealMakerTracker }) => {
   const quantityType = quantityTypes.find(
     (qT) => qT.id === food.quantityTypeId
   );
-
-  return (
-    <>
-      <section className="ingredient__component">
-        <div className="ingredient">
-          {quantityType.type} {food.name} x{quantity}
-          <button onClick={toggle}>Adjust Quantity</button>
-          <button
-          //   onClick={() => {
-          //     releaseFood(food.id);
-          //   }}
-          >
-            Remove
-          </button>
-        </div>
-      </section>
-
-      <Modal isOpen={modal} toggle={toggle}>
-        <ModalBody>
-          <AddedFoodQuantity
-            toggle={toggle}
-            addIngredient={addIngredient}
-            mealMakerTracker={mealMakerTracker}
-            food={food}
-          />
-        </ModalBody>
-      </Modal>
-    </>
-  );
+  if (food.quantity === 1) {
+    return (
+      <>
+        <section className="ingredient__component">
+          <div className="ingredient">
+            {quantityType.type} {food.name} x{quantity}
+            <button onClick={toggle}>Adjust Quantity</button>
+            <button
+            //   onClick={() => {
+            //     releaseFood(food.id);
+            //   }}
+            >
+              Remove
+            </button>
+          </div>
+        </section>
+        <Modal isOpen={modal} toggle={toggle}>
+          <ModalBody>
+            <AddedFoodQuantity
+              toggle={toggle}
+              addIngredient={addIngredient}
+              mealMakerTracker={mealMakerTracker}
+              food={food}
+            />
+          </ModalBody>
+        </Modal>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <section className="ingredient__component">
+          <div className="ingredient">
+            {food.quantity}
+            {quantityType.type} {food.name} x{quantity}
+            <button onClick={toggle}>Adjust Quantity</button>
+            <button
+            //   onClick={() => {
+            //     releaseFood(food.id);
+            //   }}
+            >
+              Remove
+            </button>
+          </div>
+        </section>
+        <Modal isOpen={modal} toggle={toggle}>
+          <ModalBody>
+            <AddedFoodQuantity
+              toggle={toggle}
+              addIngredient={addIngredient}
+              mealMakerTracker={mealMakerTracker}
+              food={food}
+            />
+          </ModalBody>
+        </Modal>
+      </>
+    );
+  }
 };

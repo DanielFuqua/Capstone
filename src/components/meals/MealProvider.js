@@ -25,7 +25,7 @@ export const MealProvider = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(meal),
-    }).then(getMeals);
+    }).then((res) => res.json());
   };
 
   const updateMeal = (meal) => {
@@ -60,6 +60,7 @@ export const MealProvider = (props) => {
       value={{
         meals,
         addMeal,
+        getMeals,
       }}
     >
       {props.children}
