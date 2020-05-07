@@ -9,10 +9,18 @@ export default () => {
   const addIngredient = (food) => {
     // copy current state with slice
     const newIngredients = ingredients.slice();
-    // add new ingredient to copy
-    newIngredients.push(food);
-    // invoke setIngredients and pass the copy as the argument
-    setIngredients(newIngredients);
+    if (!newIngredients.includes(food)) {
+      // if newIngredients doesn not include food...
+      // add new ingredient to copy
+      newIngredients.push(food);
+      // invoke setIngredients and pass the copy as the argument
+      setIngredients(newIngredients);
+    }
+  };
+  const removeIngredient = (food) => {
+    const copy = ingredients.slice();
+    const i = copy.splice(i, 1);
+    setIngredients(copy);
   };
 
   const [mealTrackerObject, setMealTrackerObject] = useState({});
@@ -35,6 +43,7 @@ export default () => {
         mealMakerTracker={mealMakerTracker}
         addIngredient={addIngredient}
         ingredients={ingredients}
+        removeIngredient={removeIngredient}
       />
     </>
   );

@@ -28,7 +28,7 @@ const Login = (props) => {
     e.preventDefault();
 
     existingUserCheck().then((exists) => {
-      if (exists && exists.password === parseInt(password.current.value)) {
+      if (exists && exists.password === password.current.value) {
         localStorage.setItem("pal_id", exists.id);
         props.toggle();
       } else if (exists && exists.password !== password.current.value) {

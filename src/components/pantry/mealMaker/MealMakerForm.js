@@ -1,23 +1,24 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
-import { FoodContext } from "../foodList/FoodProvider";
 import { DietContext } from "../../meals/DietProvider";
 import { MealTypeContext } from "../../meals/MealTypeProvider";
 import { MealContext } from "../../meals/MealProvider";
 import IngredientList from "./IngredientList";
 import { MealFoodsContext } from "../../meals/MealFoodsProvider";
+import { UserMealContext } from "../../meals/UserMealsProvider";
 
 export default ({
   addIngredient,
   ingredients,
   mealTrackerObject,
   mealMakerTracker,
+  removeIngredient,
 }) => {
-  const { foods } = useContext(FoodContext);
   const { diets } = useContext(DietContext);
   const { mealTypes } = useContext(MealTypeContext);
   const { addMeal } = useContext(MealContext);
   const { addMealFood } = useContext(MealFoodsContext);
   const { getMeals } = useContext(MealContext);
+  const { addUserMeal } = useContext(UserMealContext);
 
   const [calories, setCalories] = useState(0);
   const addCalories = (cal, ing) => {
@@ -92,7 +93,6 @@ export default ({
     } else {
       addMeal({
         name: name.current.value,
-        userId: parseInt(localStorage.getItem("pal_id")),
         dietId: chosenDietTypeId,
         MealTypeId: chosenMealTypeId,
         calories: chosenCalories,
@@ -103,10 +103,12 @@ export default ({
         description: description.current.value,
       })
         .then(constructNewMealFoodsObj)
+        .then(constructNewUserMealObj)
         .then(getMeals);
       // figure out also how to reset form back to default
     }
   };
+  // When we save a new meal we also want to save a new mealFood object for each ingredient in the meal.
   const constructNewMealFoodsObj = (meal) => {
     ingredients.map((ing) => {
       const quantity = mealTrackerObject[ing.id];
@@ -116,6 +118,13 @@ export default ({
         mealId: meal.id,
         quantity: quantity,
       });
+    });
+  };
+  // When we save a new meal we also want to save a new userMeal object, incase one meal can be owned by many users later on.
+  const constructNewUserMealObj = (meal) => {
+    addUserMeal({
+      userId: parseInt(localStorage.getItem("pal_id")),
+      mealId: meal.id,
     });
   };
 
@@ -133,6 +142,7 @@ export default ({
               ingredients={ingredients}
               mealMakerTracker={mealMakerTracker}
               mealTrackerObject={mealTrackerObject}
+              removeIngredient={removeIngredient}
             />
           }
         </div>

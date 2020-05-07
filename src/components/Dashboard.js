@@ -9,23 +9,29 @@ import { DietProvider } from "./meals/DietProvider";
 import { MealTypeProvider } from "./meals/MealTypeProvider";
 import { MealProvider } from "./meals/MealProvider";
 import { MealFoodsProvider } from "./meals/MealFoodsProvider";
+import { UserMealProvider } from "./meals/UserMealsProvider";
+import { UserFoodsProvider } from "./pantry/foodList/UserFoodsProvider";
 
 export default () => {
   return (
-    <FoodProvider>
-      <FoodTypeProvider>
-        <QuantityTypeProvider>
-          <DietProvider>
-            <MealFoodsProvider>
-              <MealTypeProvider>
-                <MealProvider>
-                  <Pantry />
-                </MealProvider>
-              </MealTypeProvider>
-            </MealFoodsProvider>
-          </DietProvider>
-        </QuantityTypeProvider>
-      </FoodTypeProvider>
-    </FoodProvider>
+    <UserFoodsProvider>
+      <FoodProvider>
+        <FoodTypeProvider>
+          <QuantityTypeProvider>
+            <DietProvider>
+              <MealFoodsProvider>
+                <MealTypeProvider>
+                  <MealProvider>
+                    <UserMealProvider>
+                      <Pantry />
+                    </UserMealProvider>
+                  </MealProvider>
+                </MealTypeProvider>
+              </MealFoodsProvider>
+            </DietProvider>
+          </QuantityTypeProvider>
+        </FoodTypeProvider>
+      </FoodProvider>
+    </UserFoodsProvider>
   );
 };

@@ -6,18 +6,22 @@ import { FoodTypeContext } from "./FoodTypeProvider";
 import AddFoodForm from "./AddFoodForm";
 import { QuantityTypeContext } from "../QuantityTypeProvider";
 import Food from "./Food";
+import { UserFoodsContext } from "./UserFoodsProvider";
 
 export default ({ addIngredient, mealMakerTracker }) => {
   const { foods } = useContext(FoodContext);
   const { foodTypes } = useContext(FoodTypeContext);
   const { quantityTypes } = useContext(QuantityTypeContext);
-
+  const { userFoods } = useContext(UserFoodsContext);
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
-  const userFoods = foods.filter(
-    (food) => food.userId === parseInt(localStorage.getItem("pal_id"))
+  const thisUsersFoods = userFoods.filter(
+    (userFood) => userFood.userId === parseInt(localStorage.getItem("pal_id"))
   );
-
+  const theFoods = thisUsersFoods.map((tUF) => {
+    return foods.find((f) => f.id === tUF.foodId) || {};
+  });
+  console.log(theFoods);
   return (
     <>
       <h2>Food List</h2>
@@ -25,8 +29,9 @@ export default ({ addIngredient, mealMakerTracker }) => {
       <button onClick={toggle}>Add Food</button>
 
       <ul className="foods">
-        {userFoods.map((food) => {
-          const foodType = foodTypes.find((fT) => fT.id === food.foodTypeId);
+        {theFoods.map((food) => {
+          const foodType =
+            foodTypes.find((fT) => fT.id === food.foodTypeId) || {};
           const quantityType =
             quantityTypes.find((qT) => qT.id === food.quantityTypeId) || {};
 

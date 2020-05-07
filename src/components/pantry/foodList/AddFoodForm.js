@@ -3,11 +3,13 @@ import "../Foods.css";
 import { FoodContext } from "./FoodProvider";
 import { FoodTypeContext } from "./FoodTypeProvider";
 import { QuantityTypeContext } from "../QuantityTypeProvider";
+import { UserFoodsContext } from "./UserFoodsProvider";
 
 export default (props) => {
-  const { addFood } = useContext(FoodContext);
+  const { addFood, getFoods } = useContext(FoodContext);
   const { foodTypes } = useContext(FoodTypeContext);
   const { quantityTypes } = useContext(QuantityTypeContext);
+  const { addUserFood } = useContext(UserFoodsContext);
   const name = useRef();
   const quantity = useRef();
   const quantityType = useRef();
@@ -37,7 +39,6 @@ export default (props) => {
     } else {
       addFood({
         name: name.current.value,
-        userId: parseInt(localStorage.getItem("pal_id")),
         quantity: chosenQuantity,
         quantityTypeId: chosenQuantityTypeId,
         foodTypeId: chosenFoodTypeId,
@@ -46,8 +47,18 @@ export default (props) => {
         fat: chosenFat,
         carbohydrate: chosenCarbohydrate,
         sugar: chosenSugar,
-      }).then(props.toggler);
+      })
+        .then(constructNewUserFoodObj)
+        .then(getFoods)
+        .then(props.toggler);
     }
+  };
+
+  const constructNewUserFoodObj = (food) => {
+    addUserFood({
+      userId: parseInt(localStorage.getItem("pal_id")),
+      foodId: food.id,
+    });
   };
 
   return (
