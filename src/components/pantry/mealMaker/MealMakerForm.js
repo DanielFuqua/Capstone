@@ -1,23 +1,24 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
-import { FoodContext } from "../FoodProvider";
 import { DietContext } from "../../meals/DietProvider";
 import { MealTypeContext } from "../../meals/MealTypeProvider";
 import { MealContext } from "../../meals/MealProvider";
 import IngredientList from "./IngredientList";
+import { MealFoodsContext } from "../../meals/MealFoodsProvider";
+import { UserMealContext } from "../../meals/UserMealsProvider";
 
 export default ({
   addIngredient,
   ingredients,
   mealTrackerObject,
   mealMakerTracker,
+  removeIngredient,
 }) => {
-  // javascript iterate keys on an object
-  // inside the loop use .find to get the api obj to display the text
-
-  const { foods } = useContext(FoodContext);
   const { diets } = useContext(DietContext);
   const { mealTypes } = useContext(MealTypeContext);
   const { addMeal } = useContext(MealContext);
+  const { addMealFood } = useContext(MealFoodsContext);
+  const { getMeals } = useContext(MealContext);
+  const { addUserMeal } = useContext(UserMealContext);
 
   const [calories, setCalories] = useState(0);
   const addCalories = (cal, ing) => {
@@ -77,11 +78,11 @@ export default ({
   const constructNewMealObj = () => {
     const chosenDietTypeId = parseInt(dietType.current.value);
     const chosenMealTypeId = parseInt(mealType.current.value);
-    // const totalCalories = parseInt(calories.current.value);
-    // const totalProtein = parseInt(protein.current.value);
-    // const totalFat = parseInt(fat.current.value);
-    // const totalCarbohydrate = parseInt(carbohydrate.current.value);
-    // const totalSugar = parseInt(sugar.current.value);
+    const chosenCalories = calories;
+    const chosenProtein = protein;
+    const chosenFat = fat;
+    const chosenCarbohydrate = carbohydrate;
+    const chosenSugar = sugar;
 
     if (name === "") {
       window.alert("Please name your meal");
@@ -92,33 +93,56 @@ export default ({
     } else {
       addMeal({
         name: name.current.value,
-        userId: parseInt(localStorage.getItem("pal_id")),
         dietId: chosenDietTypeId,
         MealTypeId: chosenMealTypeId,
-        calories: calories,
-        protein: protein,
-        fat: fat,
-        carbohydrate: carbohydrate,
-        sugar: sugar,
-        description: description,
-      }).then(window.alert("You have successfully created a new meal!"));
+        calories: chosenCalories,
+        protein: chosenProtein,
+        fat: chosenFat,
+        carbohydrate: chosenCarbohydrate,
+        sugar: chosenSugar,
+        description: description.current.value,
+      })
+        .then(constructNewMealFoodsObj)
+        .then(constructNewUserMealObj)
+        .then(getMeals);
       // figure out also how to reset form back to default
     }
+  };
+  // When we save a new meal we also want to save a new mealFood object for each ingredient in the meal.
+  const constructNewMealFoodsObj = (meal) => {
+    ingredients.map((ing) => {
+      const quantity = mealTrackerObject[ing.id];
+      // This MealFoodObject is going to need the ID of the meal we just saved above...
+      addMealFood({
+        foodId: ing.id,
+        mealId: meal.id,
+        quantity: quantity,
+      });
+    });
+  };
+  // When we save a new meal we also want to save a new userMeal object, incase one meal can be owned by many users later on.
+  const constructNewUserMealObj = (meal) => {
+    addUserMeal({
+      userId: parseInt(localStorage.getItem("pal_id")),
+      mealId: meal.id,
+    });
   };
 
   return (
     <form className="mealMakerForm">
       <h2 className="mealMakerForm__title">Meal Maker</h2>
+      <br></br>
       {/* Display list of ingredient */}
       <fieldset>
         <div className="form-group">
-          <label htmlFor="Ingredients">Ingredients: </label>
+          <h4 htmlFor="Ingredients">Ingredients: </h4>
           {
             <IngredientList
               addIngredient={addIngredient}
               ingredients={ingredients}
               mealMakerTracker={mealMakerTracker}
               mealTrackerObject={mealTrackerObject}
+              removeIngredient={removeIngredient}
             />
           }
         </div>
@@ -127,7 +151,7 @@ export default ({
       {/* Display Total nutrients */}
       <fieldset>
         <div className="form-group">
-          <label htmlFor="Nutriens">Total Nutrients: </label>
+          <h4 htmlFor="Nutriens">Total Nutrients: </h4>
           <section>
             <div className="calories">Calories: {calories}</div>
             <div className="protein">Protein: {protein}g</div>
@@ -197,7 +221,7 @@ export default ({
       <fieldset>
         <div className="form-group">
           <label htmlFor="description">Description: </label>
-          <input
+          <textarea
             type="text"
             id="description"
             ref={description}

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FoodContext } from "./FoodProvider";
-import AddedFoodQuantity from "./AddedFoodQuantity";
+import AddedFoodQuantity from "../AddedFoodQuantity";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 export default ({

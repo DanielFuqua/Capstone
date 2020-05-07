@@ -25,7 +25,7 @@ export const FoodProvider = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(food),
-    }).then(getFoods);
+    }).then((res) => res.json());
   };
 
   const updateFood = (food) => {
@@ -61,6 +61,7 @@ export const FoodProvider = (props) => {
         foods,
         addFood,
         releaseFood,
+        getFoods,
       }}
     >
       {props.children}
