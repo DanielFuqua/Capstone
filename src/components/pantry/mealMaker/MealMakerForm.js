@@ -5,21 +5,17 @@ import { MealContext } from "../../meals/MealProvider";
 import IngredientList from "./IngredientList";
 import { MealFoodsContext } from "../../meals/MealFoodsProvider";
 import { UserMealContext } from "../../meals/UserMealsProvider";
+import { useMealMaker } from "../useMealMaker";
 
-export default ({
-  addIngredient,
-  ingredients,
-  mealTrackerObject,
-  mealMakerTracker,
-  removeIngredient,
-}) => {
+export default ({ addIngredient, ingredients, removeIngredient }) => {
   const { diets } = useContext(DietContext);
   const { mealTypes } = useContext(MealTypeContext);
   const { addMeal } = useContext(MealContext);
   const { addMealFood } = useContext(MealFoodsContext);
   const { getMeals } = useContext(MealContext);
   const { addUserMeal } = useContext(UserMealContext);
-
+  // Custom hook
+  const { mealTrackerObject } = useMealMaker();
   const [calories, setCalories] = useState(0);
   const addCalories = (cal, ing) => {
     const quantity = mealTrackerObject[ing.id];
@@ -138,8 +134,6 @@ export default ({
             <IngredientList
               addIngredient={addIngredient}
               ingredients={ingredients}
-              mealMakerTracker={mealMakerTracker}
-              mealTrackerObject={mealTrackerObject}
               removeIngredient={removeIngredient}
             />
           }

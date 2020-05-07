@@ -4,8 +4,7 @@ import Ingredient from "./Ingredient";
 export default ({
   addIngredient,
   ingredients,
-  mealMakerTracker,
-  mealTrackerObject,
+
   removeIngredient,
 }) => {
   return (
@@ -14,10 +13,9 @@ export default ({
         {ingredients.map((food) => {
           return (
             <Ingredient
+              key={`food--${food.id}`}
               addIngredient={addIngredient}
               food={food}
-              mealMakerTracker={mealMakerTracker}
-              mealTrackerObject={mealTrackerObject}
               removeIngredient={removeIngredient}
             />
           );

@@ -1,7 +1,9 @@
 import React, { useRef } from "react";
 import "./Foods.css";
+import { useMealMaker } from "./useMealMaker";
 
-export default ({ food, addIngredient, mealMakerTracker, toggle }) => {
+export default ({ food, addIngredient, toggle }) => {
+  const { mealMakerTracker } = useMealMaker();
   const quantity = useRef();
   return (
     <form className="addedFoodQuantity">

@@ -37,7 +37,7 @@ export default ({ addIngredient, mealMakerTracker }) => {
 
           return (
             <Food
-              key={food.id}
+              key={`fd--${food.id}`}
               quantityType={quantityType}
               foodType={foodType}
               food={food}
