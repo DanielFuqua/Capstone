@@ -60,6 +60,7 @@ export const MealFoodsProvider = (props) => {
       value={{
         mealFoods,
         addMealFood,
+        releaseMealFoods,
       }}
     >
       {props.children}

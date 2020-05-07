@@ -103,7 +103,6 @@ export default ({
         description: description.current.value,
       })
         .then(constructNewMealFoodsObj)
-        .then(constructNewUserMealObj)
         .then(getMeals);
       // figure out also how to reset form back to default
     }
@@ -119,9 +118,8 @@ export default ({
         quantity: quantity,
       });
     });
-  };
-  // When we save a new meal we also want to save a new userMeal object, incase one meal can be owned by many users later on.
-  const constructNewUserMealObj = (meal) => {
+    // When we save a new meal we also want to save a new userMeal object, incase one meal can be owned by many users later on.
+
     addUserMeal({
       userId: parseInt(localStorage.getItem("pal_id")),
       mealId: meal.id,
