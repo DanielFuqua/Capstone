@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
 import { FoodContext } from "./FoodProvider";
 import AddedFoodQuantity from "../AddedFoodQuantity";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalBody } from "reactstrap";
 
 export default ({
-  mealMakerTracker,
   food,
   quantityType,
   foodType,
@@ -46,7 +45,6 @@ export default ({
           <AddedFoodQuantity
             toggle={toggle}
             addIngredient={addIngredient}
-            mealMakerTracker={mealMakerTracker}
             food={food}
           />
         </ModalBody>
