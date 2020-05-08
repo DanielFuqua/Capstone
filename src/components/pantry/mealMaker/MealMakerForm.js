@@ -66,7 +66,7 @@ export default ({ addIngredient, ingredients, removeIngredient }) => {
             addCarbs(carb, ingredient);
             addSugar(sug, ingredient);
         });
-    }, [ingredients]);
+    }, [ingredients, quantities]);
 
     const name = useRef();
     const dietType = useRef();
