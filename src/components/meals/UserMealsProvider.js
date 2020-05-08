@@ -61,6 +61,7 @@ export const UserMealProvider = (props) => {
         userMeals,
         addUserMeal,
         getUserMeals,
+        releaseUserMeal,
       }}
     >
       {props.children}
