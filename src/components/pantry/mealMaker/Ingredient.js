@@ -16,7 +16,6 @@ export default ({ food, addIngredient, removeIngredient }) => {
     (qT) => qT.id === food.quantityTypeId
   );
 
-
   // need to find primary key on mealTrackerObj and get quantity user tyoed in
   //const quantity = mealTrackerObject[food.id];
 
@@ -56,9 +55,9 @@ export default ({ food, addIngredient, removeIngredient }) => {
             {quantityType.type} {food.name} x{quantities[food.id]}
             <button onClick={toggle}>Adjust Quantity</button>
             <button
-            //   onClick={() => {
-            //     releaseFood(food.id);
-            //   }}
+              onClick={() => {
+                removeIngredient(food);
+              }}
             >
               Remove
             </button>
