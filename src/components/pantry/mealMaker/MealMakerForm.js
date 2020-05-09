@@ -17,53 +17,53 @@ export default ({ addIngredient, ingredients, removeIngredient }) => {
   const { quantities } = useContext(MealQuantityContext);
 
   const [calories, setCalories] = useState(0);
-  const addCalories = (cal, ing) => {
-    const quantity = quantities[ing.id];
-    const newCalories = cal * quantity;
-    setCalories(newCalories);
-  };
 
   const [protein, setProtein] = useState(0);
-  const addProtein = (pro, ing) => {
-    const quantity = quantities[ing.id];
-    const newProtein = pro * quantity;
-    setProtein(newProtein);
-  };
 
   const [fat, setFat] = useState(0);
-  const addFat = (f, ing) => {
-    const quantity = quantities[ing.id];
-    const newFat = f * quantity;
-    setFat(newFat);
-  };
 
   const [carbohydrate, setCarbohydrate] = useState(0);
-  const addCarbs = (carb, ing) => {
-    const quantity = quantities[ing.id];
-    const newCarbs = carb * quantity;
-    setCarbohydrate(newCarbs);
-  };
 
   const [sugar, setSugar] = useState(0);
-  const addSugar = (sug, ing) => {
-    const quantity = quantities[ing.id];
-    const newSugar = sug * quantity;
-    setSugar(newSugar);
+
+  const updateMacros = (totals) => {
+    const total = totals.reduce(
+      (acc, curr) => {
+        return {
+          calories: (curr.calories += acc.calories),
+          sugar: (curr.sugar += acc.sugar),
+          carbohydrate: (curr.carbohydrate += acc.carbohydrate),
+          protein: (curr.protein += acc.protein),
+          fat: (curr.fat += acc.fat),
+        };
+      },
+      { calories: 0, sugar: 0, carbohydrate: 0, protein: 0, fat: 0 }
+    );
+    setCalories(total.calories);
+    setSugar(total.sugar);
+    setCarbohydrate(total.carbohydrate);
+    setProtein(total.protein);
+    setFat(total.fat);
   };
 
   useEffect(() => {
-    ingredients.map((ingredient) => {
+    let totals = [];
+    ingredients.forEach((ingredient) => {
       const cal = ingredient.calories;
       const pro = ingredient.protein;
       const f = ingredient.fat;
       const carb = ingredient.carbohydrate;
       const sug = ingredient.sugar;
-      addCalories(cal, ingredient);
-      addProtein(pro, ingredient);
-      addFat(f, ingredient);
-      addCarbs(carb, ingredient);
-      addSugar(sug, ingredient);
+      const quantity = quantities[ingredient.id];
+      totals.push({
+        calories: cal * quantity,
+        protein: pro * quantity,
+        fat: f * quantity,
+        carbohydrate: carb * quantity,
+        sugar: sug * quantity,
+      });
     });
+    updateMacros(totals);
   }, [ingredients, quantities]);
 
   const name = useRef();
