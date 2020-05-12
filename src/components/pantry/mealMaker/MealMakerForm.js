@@ -124,7 +124,7 @@ export default ({ addIngredient, ingredients, removeIngredient }) => {
 
   return (
     <form className="mealMakerForm">
-      <h2 className="mealMakerForm__title">Meal Maker</h2>
+      <h1 className="mealMakerForm__title">Meal Maker</h1>
       <br></br>
       {/* Display list of ingredient */}
       <fieldset>

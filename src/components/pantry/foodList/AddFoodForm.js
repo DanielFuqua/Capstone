@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-import "../Foods.css";
+import "../Pantry.css";
 import { FoodContext } from "./FoodProvider";
 import { FoodTypeContext } from "./FoodTypeProvider";
 import { QuantityTypeContext } from "../QuantityTypeProvider";
@@ -63,7 +63,7 @@ export default (props) => {
 
   return (
     <form className="addFoodForm">
-      <h2 className="addFoodForm__title">New Food Item</h2>
+      <h2 className="addFoodForm__title">Add Food To Pantry</h2>
       <fieldset>
         <div className="form-group">
           <label htmlFor="foodName">Name: </label>
@@ -102,7 +102,7 @@ export default (props) => {
             id="foodQuantityType"
             className="form-control"
           >
-            <option value="0">choose one</option>
+            <option value="0">Cup, tbsp, ounce, etc...</option>
             {quantityTypes.map((e) => (
               <option key={e.id} value={e.id}>
                 {e.type}
@@ -192,7 +192,6 @@ export default (props) => {
           <input
             type="text"
             id="sugar"
-            sugar
             ref={sugar}
             required
             autoFocus

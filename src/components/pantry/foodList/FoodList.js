@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import "../Foods.css";
+import "../Pantry.css";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { FoodContext } from "./FoodProvider";
 import { FoodTypeContext } from "./FoodTypeProvider";
@@ -27,31 +27,32 @@ export default ({ addIngredient }) => {
 
   return (
     <>
-      <h2>Food List</h2>
+      <section className="pantry_container">
+        <h1>Pantry</h1>
 
-      <button onClick={toggle}>Add Food</button>
+        <button onClick={toggle}>Add Food</button>
 
-      <ul className="foods">
-        {theFoods.map((food, index) => {
-          const foodType =
-            foodTypes.find((fT) => fT.id === food.foodTypeId) || {};
-          const quantityType =
-            quantityTypes.find((qT) => qT.id === food.quantityTypeId) || {};
+        <ul className="foods">
+          {theFoods.map((food, index) => {
+            const foodType =
+              foodTypes.find((fT) => fT.id === food.foodTypeId) || {};
+            const quantityType =
+              quantityTypes.find((qT) => qT.id === food.quantityTypeId) || {};
 
-          return (
-            <Food
-              key={`fd--${index}`}
-              quantityType={quantityType}
-              foodType={foodType}
-              food={food}
-              addIngredient={addIngredient}
-            />
-          );
-        })}
-      </ul>
+            return (
+              <Food
+                key={`fd--${index}`}
+                quantityType={quantityType}
+                foodType={foodType}
+                food={food}
+                addIngredient={addIngredient}
+              />
+            );
+          })}
+        </ul>
+      </section>
 
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>New Food</ModalHeader>
         <ModalBody>
           <AddFoodForm toggler={toggle} />
         </ModalBody>

@@ -4,6 +4,7 @@ import { MealContext } from "./MealProvider";
 import { UserMealContext } from "./UserMealsProvider";
 import { FoodContext } from "../pantry/foodList/FoodProvider";
 import Meal from "./Meal";
+import "./Meals.css";
 
 export default () => {
   const { foods } = useContext(FoodContext);
@@ -14,34 +15,37 @@ export default () => {
     (uM) => uM.userId === parseInt(localStorage.getItem("pal_id"))
   );
   const relatedMeals = relatedUserMeals.map((rUM) => {
-    return meals.find((meal) => meal.id === rUM.mealId);
+    return meals.find((meal) => meal.id === rUM.mealId) || {};
   });
   console.log(relatedUserMeals);
   console.log(relatedMeals);
   return (
     <>
-      <h2>Meal List</h2>
+      <section className="meals_container">
+        <h1>Meals</h1>
 
-      <ul className="meals">
-        {relatedMeals.map((meal) => {
-          const relatedMealFoods = mealFoods.filter(
-            (mealFood) => mealFood.mealId === meal.id
-          );
-          const relatedFoods = relatedMealFoods.map((rMF) => {
-            return foods.find((food) => food.id === rMF.foodId);
-          });
+        <ul className="meals">
+          {relatedMeals.map((meal) => {
+            const relatedMealFoods = mealFoods.filter(
+              (mealFood) => mealFood.mealId === meal.id
+            );
+            // const relatedFoodQuantity =
+            const relatedFoods = relatedMealFoods.map((rMF) => {
+              return foods.find((food) => food.id === rMF.foodId) || {};
+            });
 
-          return (
-            <Meal
-              key={meal.id}
-              meal={meal}
-              relatedMealFoods={relatedMealFoods}
-              relatedFoods={relatedFoods}
-              relatedUserMeals={relatedUserMeals}
-            />
-          );
-        })}
-      </ul>
+            return (
+              <Meal
+                key={meal.id}
+                meal={meal}
+                relatedMealFoods={relatedMealFoods}
+                relatedFoods={relatedFoods}
+                relatedUserMeals={relatedUserMeals}
+              />
+            );
+          })}
+        </ul>
+      </section>
     </>
   );
 };

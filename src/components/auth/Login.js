@@ -78,8 +78,8 @@ const Login = (props) => {
         </form>
       </main>
 
-      <Modal isOpen={modal} toggleModal={toggleModal}>
-        <ModalHeader toggleModal={toggleModal}>Get Registered</ModalHeader>
+      <Modal isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Get Registered</ModalHeader>
         <ModalBody>
           <Register toggle={props.toggle} />
         </ModalBody>

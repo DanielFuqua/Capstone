@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import FoodList from "./foodList/FoodList";
 import "../Layout.css";
 import "../PantryPal.css";
+// import "./Pantry.css";
 import MealMakerForm from "./mealMaker/MealMakerForm";
 import { MealQuantityProvider } from "./MealQuantityProvider";
 
@@ -27,14 +28,16 @@ export default () => {
 
   return (
     <>
-      <MealQuantityProvider>
-        <FoodList addIngredient={addIngredient} />
-        <MealMakerForm
-          addIngredient={addIngredient}
-          ingredients={ingredients}
-          removeIngredient={removeIngredient}
-        />
-      </MealQuantityProvider>
+      <section className="pantry_view">
+        <MealQuantityProvider>
+          <MealMakerForm
+            addIngredient={addIngredient}
+            ingredients={ingredients}
+            removeIngredient={removeIngredient}
+          />
+          <FoodList addIngredient={addIngredient} />
+        </MealQuantityProvider>
+      </section>
     </>
   );
 };
