@@ -1,0 +1,47 @@
+.foods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  /* background: grey;
+  border-radius: 30px; */
+}
+
+.food {
+  flex-basis: 28%;
+  margin: 1em;
+  padding: 1em;
+  border: 1px solid rgb(209, 134, 3);
+  background: white;
+  border-radius: 15px;
+  box-shadow: 10px 5px 5px #010101;
+}
+
+.pantry_view {
+  display: flex;
+  justify-content: space-between;
+}
+.pantry_container {
+  border: 1px grey solid;
+  border-radius: 30px;
+  flex-basis: 79%;
+  padding: 5px;
+}
+.pantry_container h1 {
+  text-align: center;
+}
+
+.mealMakerForm {
+  border: grey 1px solid;
+  border-radius: 20px;
+  flex-basis: 19%;
+  height: 100%;
+  padding: 4px 6px 14px 6px;
+}
+
+.mealMakerForm button {
+  align-items: center;
+}
+
+.mealMakerForm h1 {
+  text-align: center;
+}

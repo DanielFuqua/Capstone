@@ -41,15 +41,17 @@ export default () => {
 
   const showMeals = () => (
     <MealProvider>
-      <MealFoodsProvider>
-        <UserMealProvider>
-          <FoodProvider>
-            <MealProvider>
-              <MealList />
-            </MealProvider>
-          </FoodProvider>
-        </UserMealProvider>
-      </MealFoodsProvider>
+      <QuantityTypeProvider>
+        <MealFoodsProvider>
+          <UserMealProvider>
+            <FoodProvider>
+              <MealProvider>
+                <MealList />
+              </MealProvider>
+            </FoodProvider>
+          </UserMealProvider>
+        </MealFoodsProvider>
+      </QuantityTypeProvider>
     </MealProvider>
   );
 
@@ -68,16 +70,17 @@ export default () => {
     <>
       <div className="mainContainer">
         <div className="dataContainer">
-          <h2>Pantry Pal</h2>
           {/* <small>Loving care when you're not there.</small> */}
           <div className="listContainer">
-            <div className="nav_buttons">
+            <div className="nav_container">
               <button
                 className="nav_button"
                 onClick={() => setActiveList("pantry")}
               >
                 Pantry
               </button>
+              <h1>Pantry Pal</h1>
+
               <button
                 className="nav_button"
                 onClick={() => setActiveList("meals")}
@@ -85,8 +88,8 @@ export default () => {
                 Meals
               </button>
             </div>
-            <div className="linkDisplay">{components}</div>
           </div>
+          <div className="linkDisplay">{components}</div>
         </div>
       </div>
     </>

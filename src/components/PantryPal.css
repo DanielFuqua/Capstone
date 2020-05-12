@@ -1,12 +1,13 @@
 /* Import the google web fonts you want to use */
 @import url("https://fonts.googleapis.com/css?family=Comfortaa|Patua+One");
+/* @import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap"); */
 
 /*Typography
 --------------------------------------------------------------*/
-body,
 button,
 input,
 select,
+body,
 textarea {
   color: #404040;
   font-family: "Comfortaa", Arial, sans-serif;
@@ -20,7 +21,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Patua One", serif;
+  font-family: "Amatic SC", cursive;
+
   letter-spacing: 2px;
 }
 

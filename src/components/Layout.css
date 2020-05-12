@@ -18,9 +18,11 @@
 
 .listContainer {
   padding-top: 3rem;
-  border-top: 1px solid gray;
+  padding-bottom: 3rem;
+  border-top: 1px solid goldenrod;
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
 }
 
 .links {
@@ -29,4 +31,12 @@
 
 .listDisplay {
   flex: 5;
+}
+
+.nav_container {
+  display: flex;
+}
+
+.nav_container h1 {
+  margin: 0px 100px 0px 100px;
 }
