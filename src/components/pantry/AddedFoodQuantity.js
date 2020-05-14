@@ -11,8 +11,8 @@ export default ({ food, addIngredient, toggle }) => {
       <fieldset>
         <div className="form-group">
           <label htmlFor="addedFoodQuantity">
-            Please enter how much of the item ({food.name}) would you like to
-            add:
+            Please enter how much of the item ({food.name}) you would like in
+            this meal:
           </label>
           <input
             type="text"

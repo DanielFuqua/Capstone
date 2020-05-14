@@ -6,24 +6,30 @@ import IngredientList from "./IngredientList";
 import { MealFoodsContext } from "../../meals/MealFoodsProvider";
 import { UserMealContext } from "../../meals/UserMealsProvider";
 import { MealQuantityContext } from "../MealQuantityProvider";
+import { FoodContext } from "../foodList/FoodProvider";
 
-export default ({ addIngredient, ingredients, removeIngredient }) => {
+export default ({
+  addIngredient,
+  addIngredients,
+  ingredients,
+  removeIngredient,
+  activeUserMeals,
+  setIngredients,
+}) => {
+  // ___________Getting data from providers___________
   const { diets } = useContext(DietContext);
-  const { addMeal } = useContext(MealContext);
-  const { getMeals } = useContext(MealContext);
+  const { addMeal, getMeals, meals } = useContext(MealContext);
   const { mealTypes } = useContext(MealTypeContext);
   const { addUserMeal } = useContext(UserMealContext);
-  const { addMealFood } = useContext(MealFoodsContext);
-  const { quantities } = useContext(MealQuantityContext);
+  const { addMealFood, mealFoods } = useContext(MealFoodsContext);
+  const { foods } = useContext(FoodContext);
+  const { updateQuantities, quantities } = useContext(MealQuantityContext);
 
+  // ___________Nutrients Portion of Meal Maker___________
   const [calories, setCalories] = useState(0);
-
   const [protein, setProtein] = useState(0);
-
   const [fat, setFat] = useState(0);
-
   const [carbohydrate, setCarbohydrate] = useState(0);
-
   const [sugar, setSugar] = useState(0);
 
   const updateMacros = (totals) => {
@@ -66,14 +72,10 @@ export default ({ addIngredient, ingredients, removeIngredient }) => {
     updateMacros(totals);
   }, [ingredients, quantities]);
 
-  const name = useRef();
-  const dietType = useRef();
-  const mealType = useRef();
-  const description = useRef();
-
+  // ___________Invoke addMeal, addMealFood, and addUserMeal___________
   const constructNewMealObj = () => {
-    const chosenDietTypeId = parseInt(dietType.current.value);
-    const chosenMealTypeId = parseInt(mealType.current.value);
+    const chosenDietTypeId = parseInt(dietTypeId);
+    const chosenMealTypeId = parseInt(mealTypeId);
     const chosenCalories = calories;
     const chosenProtein = protein;
     const chosenFat = fat;
@@ -88,7 +90,7 @@ export default ({ addIngredient, ingredients, removeIngredient }) => {
       window.alert("Please select a meal type");
     } else {
       addMeal({
-        name: name.current.value,
+        name: name,
         dietId: chosenDietTypeId,
         MealTypeId: chosenMealTypeId,
         calories: chosenCalories,
@@ -96,7 +98,7 @@ export default ({ addIngredient, ingredients, removeIngredient }) => {
         fat: chosenFat,
         carbohydrate: chosenCarbohydrate,
         sugar: chosenSugar,
-        description: description.current.value,
+        description: description,
       })
         .then(constructNewMealFoodsObj)
         .then(getMeals);
@@ -122,119 +124,209 @@ export default ({ addIngredient, ingredients, removeIngredient }) => {
     });
   };
 
+  // ___________States of Meal Maker___________
+  const [name, setName] = useState("");
+  const [dietTypeId, setDietTypeId] = useState(0);
+  const [mealTypeId, setMealTypeId] = useState(0);
+  const [description, setDescription] = useState("");
+
+  // ___________State of Edit Mode / Meal Dropdown___________
+  const [editMode, setEditMode] = useState(false);
+  const [selectedMealId, setSelectedMealId] = useState(0);
+
+  useEffect(() => {
+    if (editMode) {
+      const selectedMeal =
+        meals.find((meal) => meal.id === selectedMealId) || {};
+
+      const relatedMealFoods =
+        mealFoods.filter((mealFood) => mealFood.mealId === selectedMealId) ||
+        [];
+
+      const foodsToAdd = relatedMealFoods.map((rMF) => {
+        return foods.find((food) => food.id === rMF.foodId);
+      });
+
+      addIngredients(foodsToAdd);
+
+      relatedMealFoods.map((relMealFood) => {
+        updateQuantities(relMealFood.foodId, relMealFood.quantity);
+        console.log(quantities);
+      });
+      console.log(selectedMeal);
+      setCalories(selectedMeal.calories);
+      setProtein(selectedMeal.protein);
+      setFat(selectedMeal.fat);
+      setCarbohydrate(selectedMeal.carbohydrate);
+      setSugar(selectedMeal.sugar);
+      setName(selectedMeal.name);
+      setDietTypeId(selectedMeal.dietId);
+      setMealTypeId(selectedMeal.MealTypeId);
+      setDescription(selectedMeal.description);
+    } else if (!editMode) {
+      setCalories(0);
+      setProtein(0);
+      setFat(0);
+      setCarbohydrate(0);
+      setSugar(0);
+      setName("");
+      setDietTypeId(0);
+      setMealTypeId(0);
+      setDescription("");
+    }
+  }, [editMode]);
   return (
-    <form className="mealMakerForm">
-      <h1 className="mealMakerForm__title">Meal Maker</h1>
-      <br></br>
-      {/* Display list of ingredient */}
-      <fieldset>
-        <div className="form-group">
-          <h4 htmlFor="Ingredients">Ingredients: </h4>
-          {
-            <IngredientList
-              addIngredient={addIngredient}
-              ingredients={ingredients}
-              removeIngredient={removeIngredient}
-            />
-          }
-        </div>
-      </fieldset>
-
-      {/* Display Total nutrients */}
-      <fieldset>
-        <div className="form-group">
-          <h4 htmlFor="Nutriens">Total Nutrients: </h4>
-          <section>
-            <div className="calories">Calories: {calories}</div>
-            <div className="protein">Protein: {protein}g</div>
-            <div className="fat">Fat: {fat}g</div>
-            <div className="carbohydrate">Carbohydrate: {carbohydrate}g</div>
-            <div className="sugar">Sugar: {sugar}g</div>
-          </section>
-        </div>
-      </fieldset>
-
-      {/* Give 'er a name */}
-      <fieldset>
-        <div className="form-group">
-          <label htmlFor="mealName">Name: </label>
-          <input
-            type="text"
-            id="mealName"
-            ref={name}
-            required
-            autoFocus
-            className="form-control"
-            placeholder="Meal name"
-          />
-        </div>
-      </fieldset>
-      {/* Dropdown to choose Diet Type */}
-      <fieldset>
-        <div className="form-group">
-          <label htmlFor="DietType">Diet Type: </label>
+    <>
+      <article className="mealMakerView">
+        <section className="meal_dropdown">
+          <h3>Your Meals:</h3>
           <select
+            onChange={(e) => {
+              if (e.target.value > 0) {
+                setIngredients([]);
+                setEditMode(true);
+                setSelectedMealId(parseInt(e.target.value));
+              } else {
+                setIngredients([]);
+                setEditMode(false);
+              }
+            }}
             defaultValue=""
-            name="dietType"
-            ref={dietType}
-            id="dietype"
+            name="meal_dropdown"
+            // ref={selectedMealId}
+            id="meal_dropdown"
             className="form-control"
           >
-            <option value="0">choose one</option>
-            {diets.map((e) => (
+            <option value="0">Your Meals...</option>
+            {activeUserMeals.map((e) => (
               <option key={e.id} value={e.id}>
                 {e.name}
               </option>
             ))}
           </select>
-        </div>
-      </fieldset>
-      {/* Dropdown to choose Meal Type */}
-      <fieldset>
-        <div className="form-group">
-          <label htmlFor="mealype">Meal Type: </label>
-          <select
-            defaultValue=""
-            name="mealType"
-            ref={mealType}
-            id="mealType"
-            className="form-control"
+        </section>
+
+        <form className="mealMakerForm">
+          <h1 className="mealMakerForm__title">Meal Maker</h1>
+          <br></br>
+          {/* Display list of ingredient */}
+          <fieldset>
+            <div className="form-group">
+              <h4 htmlFor="Ingredients">Ingredients: </h4>
+              {
+                <IngredientList
+                  addIngredient={addIngredient}
+                  ingredients={ingredients}
+                  removeIngredient={removeIngredient}
+                />
+              }
+            </div>
+          </fieldset>
+
+          {/* Display Total nutrients */}
+          <fieldset>
+            <div className="form-group">
+              <h4 htmlFor="Nutriens">Total Macros: </h4>
+              <section>
+                <div className="calories">Calories: {calories}</div>
+                <div className="protein">Protein: {protein}g</div>
+                <div className="fat">Fat: {fat}g</div>
+                <div className="carbohydrate">
+                  Carbohydrate: {carbohydrate}g
+                </div>
+                <div className="sugar">Sugar: {sugar}g</div>
+              </section>
+            </div>
+          </fieldset>
+
+          {/* Give 'er a name */}
+          <fieldset>
+            <div className="form-group">
+              <label htmlFor="mealName">Name: </label>
+              <input
+                type="text"
+                onKeyUp={(e) => setName(e.target.value)}
+                id="mealName"
+                required
+                autoFocus
+                className="form-control"
+                placeholder="Meal name"
+                defaultValue={name}
+              />
+            </div>
+          </fieldset>
+          {/* Dropdown to choose Diet Type */}
+          <fieldset>
+            <div className="form-group">
+              <label htmlFor="DietType">Diet Type: </label>
+              <select
+                onChange={(e) => setDietTypeId(e.target.value)}
+                name="dietType"
+                id="dietype"
+                className="form-control"
+                value={dietTypeId}
+              >
+                <option value="0">choose one</option>
+                {diets.map((e) => (
+                  <option key={e.id} value={e.id}>
+                    {e.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </fieldset>
+          {/* Dropdown to choose Meal Type */}
+          <fieldset>
+            <div className="form-group">
+              <label htmlFor="mealype">Meal Type: </label>
+              <select
+                defaultValue=""
+                onChange={(e) => setMealTypeId(e.target.value)}
+                name="mealType"
+                // ref={mealType}
+                id="mealType"
+                className="form-control"
+                value={mealTypeId}
+              >
+                <option value="0">choose one</option>
+                {mealTypes.map((e) => (
+                  <option key={e.id} value={e.id}>
+                    {e.type}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </fieldset>
+          {/* Enter in a description */}
+          <fieldset>
+            <div className="form-group">
+              <label htmlFor="description">Description: </label>
+              <textarea
+                type="text"
+                onKeyUp={(e) => setDescription(e.target.value)}
+                id="description"
+                // ref={description}
+                required
+                autoFocus
+                className="form-control"
+                placeholder="Description"
+                defaultValue={description}
+              />
+            </div>
+          </fieldset>
+          {/* button to construct new meal object and save to meals */}
+          <button
+            type="submit"
+            onClick={(evt) => {
+              evt.preventDefault(); // Prevent browser from submitting the form
+              constructNewMealObj();
+            }}
+            className="btn btn-primary"
           >
-            <option value="0">choose one</option>
-            {mealTypes.map((e) => (
-              <option key={e.id} value={e.id}>
-                {e.type}
-              </option>
-            ))}
-          </select>
-        </div>
-      </fieldset>
-      {/* Enter in a description */}
-      <fieldset>
-        <div className="form-group">
-          <label htmlFor="description">Description: </label>
-          <textarea
-            type="text"
-            id="description"
-            ref={description}
-            required
-            autoFocus
-            className="form-control"
-            placeholder="Description"
-          />
-        </div>
-      </fieldset>
-      {/* button to construct new meal object and save to meals */}
-      <button
-        type="submit"
-        onClick={(evt) => {
-          evt.preventDefault(); // Prevent browser from submitting the form
-          constructNewMealObj();
-        }}
-        className="btn btn-primary"
-      >
-        Save Meal
-      </button>
-    </form>
+            Save Meal
+          </button>
+        </form>
+      </article>
+    </>
   );
 };

@@ -24,7 +24,7 @@ export default ({ meal, relatedFoods, relatedMealFoods, relatedUserMeals }) => {
 
   return (
     <>
-      <article className="meal">
+      <article key={meal.id} className="meal">
         <section className="meal_display">
           <h2 className="meal__name">{meal.name}</h2>
           <h4>Ingredients:</h4>
@@ -42,7 +42,7 @@ export default ({ meal, relatedFoods, relatedMealFoods, relatedUserMeals }) => {
               );
             })}
           </ul>
-          <h4>Nutrients:</h4>
+          <h4>Macros:</h4>
           <article className="meal__nutrients">
             <div>Calories: {meal.calories}</div>
             <div>Protein: {meal.protein}g</div>

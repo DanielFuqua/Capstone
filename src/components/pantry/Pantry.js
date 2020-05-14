@@ -1,16 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useContext } from "react";
 import FoodList from "./foodList/FoodList";
 import "../Layout.css";
 import "../PantryPal.css";
 // import "./Pantry.css";
 import MealMakerForm from "./mealMaker/MealMakerForm";
 import { MealQuantityProvider } from "./MealQuantityProvider";
+import { MealContext } from "../meals/MealProvider";
+import { UserMealContext } from "../meals/UserMealsProvider";
 
 export default () => {
+  const { meals } = useContext(MealContext);
+  const { userMeals } = useContext(UserMealContext);
+
+  // const selectedMealId = useRef();
+
+  const activeUserUserMeals =
+    userMeals.filter(
+      (userMeal) => userMeal.userId === parseInt(localStorage.getItem("pal_id"))
+    ) || [];
+  const activeUserMeals =
+    activeUserUserMeals.map((actUserUserMeal) => {
+      return meals.find((meal) => meal.id === actUserUserMeal.mealId);
+    }) || {};
+
   const [ingredients, setIngredients] = useState([]);
+
+  const addIngredients = (foods) => {
+    // copy current state with slice
+    const newIngredients = [...ingredients, ...foods];
+    setIngredients(newIngredients);
+  };
+
   const addIngredient = (food) => {
     // copy current state with slice
-    const newIngredients = ingredients.slice();
+    const newIngredients = ingredients.slice(0);
+
     if (!newIngredients.includes(food)) {
       // if newIngredients doesn not include food...
       // add new ingredient to copy
@@ -31,13 +55,34 @@ export default () => {
       <section className="pantry_view">
         <MealQuantityProvider>
           <MealMakerForm
+            setIngredients={setIngredients}
+            activeUserMeals={activeUserMeals}
             addIngredient={addIngredient}
+            addIngredients={addIngredients}
             ingredients={ingredients}
             removeIngredient={removeIngredient}
           />
           <FoodList addIngredient={addIngredient} />
         </MealQuantityProvider>
       </section>
+
+      {/* <section className="meal_dropdown">
+        <h3>Your Meals:</h3>
+        <select
+          defaultValue=""
+          name="meal_dropdown"
+          ref={selectedMealId}
+          id="meal_dropdown"
+          className="form-control"
+        >
+          <option value="0">Your Meals...</option>
+          {activeUserMeals.map((e) => (
+            <option key={e.id} value={e.id}>
+              {e.name}
+            </option>
+          ))}
+        </select>
+      </section> */}
     </>
   );
 };

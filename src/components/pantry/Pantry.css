@@ -2,18 +2,43 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  /* background: grey;
-  border-radius: 30px; */
 }
 
 .food {
   flex-basis: 28%;
   margin: 1em;
-  padding: 1em;
+  /* padding: 1em; */
   border: 1px solid rgb(209, 134, 3);
   background: white;
   border-radius: 15px;
   box-shadow: 10px 5px 5px #010101;
+  display: flex;
+}
+
+.food__display {
+  width: 95%;
+  margin: 1em;
+}
+
+.food_buttons {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 1%;
+}
+
+.food__button__add__to__meal {
+  height: 50%;
+  border-radius: 0% 15% 0% 0%;
+  background-color: rgb(239, 249, 129);
+  width: 100%;
+}
+
+.food__button__trash {
+  height: 50%;
+  border-radius: 0% 0% 15% 0%;
+  background-color: rgb(249, 129, 129);
+  width: 100%;
 }
 
 .pantry_view {
@@ -33,9 +58,15 @@
 .mealMakerForm {
   border: grey 1px solid;
   border-radius: 20px;
+  margin-top: 4px;
+  padding: 4px 6px 14px 6px;
+}
+
+.mealMakerView {
   flex-basis: 19%;
   height: 100%;
-  padding: 4px 6px 14px 6px;
+  display: flex;
+  flex-direction: column;
 }
 
 .mealMakerForm button {
@@ -44,4 +75,7 @@
 
 .mealMakerForm h1 {
   text-align: center;
+}
+
+.meal_dropdown {
 }
