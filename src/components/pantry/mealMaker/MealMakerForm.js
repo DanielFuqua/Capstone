@@ -23,7 +23,9 @@ export default ({
   const { addUserMeal } = useContext(UserMealContext);
   const { addMealFood, mealFoods } = useContext(MealFoodsContext);
   const { foods } = useContext(FoodContext);
-  const { updateQuantities, quantities } = useContext(MealQuantityContext);
+  const { updateQuantities, quantities, setQuantities } = useContext(
+    MealQuantityContext
+  );
 
   // ___________Nutrients Portion of Meal Maker___________
   const [calories, setCalories] = useState(0);
@@ -134,6 +136,23 @@ export default ({
   const [editMode, setEditMode] = useState(false);
   const [selectedMealId, setSelectedMealId] = useState(0);
 
+  // ___________Call this when you want the meal maker to show default values___________
+  const resetMealMakerForm = () => {
+    setCalories(0);
+    setProtein(0);
+    setFat(0);
+    setCarbohydrate(0);
+    setSugar(0);
+    setName("");
+    setDietTypeId(0);
+    setMealTypeId(0);
+    setDescription("");
+    setIngredients([]);
+    setQuantities({});
+  };
+
+  // ___________When Edit Mode is truthy, do this...___________
+
   useEffect(() => {
     if (editMode) {
       const selectedMeal =
@@ -164,15 +183,7 @@ export default ({
       setMealTypeId(selectedMeal.MealTypeId);
       setDescription(selectedMeal.description);
     } else if (!editMode) {
-      setCalories(0);
-      setProtein(0);
-      setFat(0);
-      setCarbohydrate(0);
-      setSugar(0);
-      setName("");
-      setDietTypeId(0);
-      setMealTypeId(0);
-      setDescription("");
+      resetMealMakerForm();
     }
   }, [editMode]);
   return (
@@ -319,6 +330,7 @@ export default ({
             type="submit"
             onClick={(evt) => {
               evt.preventDefault(); // Prevent browser from submitting the form
+              resetMealMakerForm();
               constructNewMealObj();
             }}
             className="btn btn-primary"

@@ -51,10 +51,6 @@ export const UserMealProvider = (props) => {
     getUserMeals();
   }, []);
 
-  useEffect(() => {
-    console.log("****  UserMeal APPLICATION STATE CHANGED  ****");
-  }, [userMeals]);
-
   return (
     <UserMealContext.Provider
       value={{
