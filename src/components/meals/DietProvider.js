@@ -51,10 +51,6 @@ export const DietProvider = (props) => {
     getDiets();
   }, []);
 
-  useEffect(() => {
-    console.log("****  Diet APPLICATION STATE CHANGED  ****");
-  }, [diets]);
-
   return (
     <DietContext.Provider
       value={{

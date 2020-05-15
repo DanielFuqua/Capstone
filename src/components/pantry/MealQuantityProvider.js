@@ -1,21 +1,80 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
+
+// export const MealQuantityContext = React.createContext();
+
+// export const MealQuantityProvider = (props) => {
+//   const [quantities, setQuantities] = useState({});
+//   debugger;
+//   const updateQuantities = (foodId, quantity) => {
+//     const copy = Object.assign({}, { ...quantities }, { [foodId]: quantity });
+//     setQuantities(copy);
+//   };
+
+//   useEffect(() => {
+//     console.log("quantity state changed");
+//     console.log(quantities);
+//   }, [quantities]);
+
+//   return (
+//     <MealQuantityContext.Provider
+//       value={{ quantities, updateQuantities, setQuantities }}
+//     >
+//       {props.children}
+//     </MealQuantityContext.Provider>
+//   );
+// };
+
+import React, { useState, useEffect, useRef } from "react";
 
 export const MealQuantityContext = React.createContext();
 
 export const MealQuantityProvider = (props) => {
-    const [quantities, setQuantities] = useState({});
+  const [quantities, setQuantities] = useState({});
 
-    const updateQuantities = (foodId, quantity) => {
-        const copy = Object.assign({}, { ...quantities }, { [foodId]: quantity });
-        setQuantities(copy);
-    };
+  const stuff = useRef(null);
 
-    useEffect(() => {
-        console.log("quantity state changed")
-        console.log(quantities)
-    }, [quantities])
+  const updateQuantities = (foodId, quantity) => {
+    stuff.current = { ...stuff.current, [foodId]: quantity };
+    setQuantities(stuff.current);
+  };
 
-    return <MealQuantityContext.Provider value={{ quantities, updateQuantities }}>
-        {props.children}
+  useEffect(() => {
+    setQuantities(quantities);
+  }, [quantities]);
+
+  return (
+    <MealQuantityContext.Provider
+      value={{ quantities, updateQuantities, setQuantities }}
+    >
+      {props.children}
     </MealQuantityContext.Provider>
-}
+  );
+};
+
+// import React, { useState, useEffect, useRef } from "react";
+
+// export const MealQuantityContext = React.createContext();
+
+// export const MealQuantityProvider = (props) => {
+//   const [quantities, setQuantities] = useState({});
+
+//   const stuff = useRef(null);
+
+//   const updateQuantities = (foodId, quantity) => {
+//     stuff.current = { ...stuff.current, [foodId]: quantity };
+//     setQuantities(stuff.current);
+//   };
+
+//   useEffect(() => {
+//     setQuantities(quantities);
+//   }, [quantities]);
+
+//   return (
+//     <MealQuantityContext.Provider
+//       value={{ quantities, updateQuantities, setQuantities }}
+//     >
+//             {props.children}
+//
+//     </MealQuantityContext.Provider>
+//   );
+// };

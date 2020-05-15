@@ -25,11 +25,11 @@ export default () => {
             <DietProvider>
               <MealFoodsProvider>
                 <MealTypeProvider>
-                  <MealProvider>
-                    <UserMealProvider>
+                  <UserMealProvider>
+                    <MealProvider>
                       <Pantry />
-                    </UserMealProvider>
-                  </MealProvider>
+                    </MealProvider>
+                  </UserMealProvider>
                 </MealTypeProvider>
               </MealFoodsProvider>
             </DietProvider>
@@ -79,7 +79,7 @@ export default () => {
               >
                 Pantry
               </button>
-              <h1>Pantry Pal</h1>
+              <h1>Macro-Manage</h1>
 
               <button
                 className="nav_button"

@@ -51,10 +51,6 @@ export const MealTypeProvider = (props) => {
     getMealTypes();
   }, []);
 
-  useEffect(() => {
-    console.log("****  MealType APPLICATION STATE CHANGED  ****");
-  }, [mealTypes]);
-
   return (
     <MealTypeContext.Provider
       value={{

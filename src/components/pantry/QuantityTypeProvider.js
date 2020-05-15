@@ -46,10 +46,6 @@ export const QuantityTypeProvider = (props) => {
     getQuantityTypes();
   }, []);
 
-  useEffect(() => {
-    console.log("****  QuantityType APPLICATION STATE CHANGED  ****");
-  }, [quantityTypes]);
-
   return (
     <QuantityTypeContext.Provider
       value={{

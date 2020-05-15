@@ -51,10 +51,6 @@ export const UserFoodsProvider = (props) => {
     getUserFoods();
   }, []);
 
-  useEffect(() => {
-    console.log("****  UserFoods APPLICATION STATE CHANGED  ****");
-  }, [userFoods]);
-
   return (
     <UserFoodsContext.Provider
       value={{
