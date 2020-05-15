@@ -12,8 +12,6 @@ export default () => {
   const { meals } = useContext(MealContext);
   const { userMeals } = useContext(UserMealContext);
 
-  // const selectedMealId = useRef();
-
   const activeUserUserMeals =
     userMeals.filter(
       (userMeal) => userMeal.userId === parseInt(localStorage.getItem("pal_id"))
@@ -65,24 +63,6 @@ export default () => {
           <FoodList addIngredient={addIngredient} />
         </MealQuantityProvider>
       </section>
-
-      {/* <section className="meal_dropdown">
-        <h3>Your Meals:</h3>
-        <select
-          defaultValue=""
-          name="meal_dropdown"
-          ref={selectedMealId}
-          id="meal_dropdown"
-          className="form-control"
-        >
-          <option value="0">Your Meals...</option>
-          {activeUserMeals.map((e) => (
-            <option key={e.id} value={e.id}>
-              {e.name}
-            </option>
-          ))}
-        </select>
-      </section> */}
     </>
   );
 };
