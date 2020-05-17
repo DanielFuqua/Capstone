@@ -58,6 +58,7 @@ export const MealProvider = (props) => {
         addMeal,
         getMeals,
         releaseMeal,
+        updateMeal,
       }}
     >
       {props.children}

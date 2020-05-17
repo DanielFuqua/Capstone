@@ -73,6 +73,29 @@
   flex-direction: column;
 }
 
+.ingredient {
+  width: 100%;
+}
+.fa-trash {
+  display: inline-flex;
+  float: right;
+  color: red;
+  margin-right: 5px;
+}
+
+.fa-plus {
+  display: inline-flex;
+  float: right;
+  color: rgb(53, 255, 2);
+}
+
+.fa-plus:hover {
+  cursor: pointer;
+}
+.fa-trash:hover {
+  cursor: pointer;
+}
+
 .mealMakerForm button {
   align-items: center;
 }

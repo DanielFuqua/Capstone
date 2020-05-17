@@ -29,6 +29,7 @@ export const MealFoodsProvider = (props) => {
   };
 
   const updateMealFoods = (mealFoods) => {
+    console.log(mealFoods);
     return fetch(`http://localhost:8088/mealFoods/${mealFoods.id}`, {
       method: "PUT",
       headers: {
@@ -57,6 +58,7 @@ export const MealFoodsProvider = (props) => {
         mealFoods,
         addMealFood,
         releaseMealFoods,
+        updateMealFoods,
       }}
     >
       {props.children}
