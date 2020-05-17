@@ -261,11 +261,12 @@ export default ({
             className="form-control"
           >
             <option default>Your Meals...</option>
-            {activeUserMeals.map((e) => (
-              <option key={e.id} value={e.id}>
-                {e.name}
-              </option>
-            ))}
+            {activeUserMeals.length > 0 &&
+              activeUserMeals.map((e) => (
+                <option key={e.id} value={e.id}>
+                  {e.name}
+                </option>
+              ))}
           </select>
         </section>
 
