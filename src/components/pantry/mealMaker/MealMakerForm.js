@@ -100,25 +100,36 @@ export default ({
         sugar: sugar,
         description: description,
       }).then(editNewMealFoodsObj);
-
-      // Update meals foods quantities
     }
   };
 
+  // ___________After a meal is updated, the mealFoods must be updated checked for changes in quantiy___________
   const editNewMealFoodsObj = () => {
-    ingredients.map((ing) => {
+    ingredients.forEach((ing) => {
       const quantity = quantities[ing.id];
       const meal = meals.find((meal) => meal.id === selectedMealId) || {};
       const theMealFoods = mealFoods.filter(
         (mealFood) => mealFood.mealId === selectedMealId
       );
-
-      updateMealFoods({
-        id: theMealFoods[0].id,
-        foodId: ing.id,
-        mealId: meal.id,
-        quantity: quantity,
+      const theFoods = theMealFoods.map((theMealFood) => {
+        return foods.find((food) => food.id === theMealFood.foodId);
       });
+
+      if (theFoods.includes(ing)) {
+        const mealFood = mealFoods.find((mF) => mF.foodId === ing.id);
+        updateMealFoods({
+          id: mealFood.id,
+          foodId: ing.id,
+          mealId: meal.id,
+          quantity: quantity,
+        });
+      } else {
+        addMealFood({
+          foodId: ing.id,
+          mealId: meal.id,
+          quantity: quantity,
+        });
+      }
     });
   };
 
