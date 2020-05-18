@@ -30,9 +30,9 @@ export default ({ addIngredient }) => {
       <section className="pantry_container">
         <h1>Pantry</h1>
 
-        <button className="button__addFood" onClick={toggle}>
-          Add Food
-        </button>
+        <Button className="button__addFood" onClick={toggle}>
+          Add Food <i className="fa fa-lg fa-plus-square"></i>
+        </Button>
 
         <ul className="foods">
           {theFoods.map((food, index) => {

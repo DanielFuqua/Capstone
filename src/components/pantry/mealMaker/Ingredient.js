@@ -4,10 +4,18 @@ import AddedFoodQuantity from "../AddedFoodQuantity";
 import { QuantityTypeContext } from "../QuantityTypeProvider";
 import { useMealMaker } from "../useMealMaker";
 import { MealQuantityContext } from "../MealQuantityProvider";
+import { MealFoodsContext } from "../../meals/MealFoodsProvider";
 
-export default ({ food, addIngredient, removeIngredient }) => {
+export default ({
+  food,
+  addIngredient,
+  removeIngredient,
+  selectedMealId,
+  editMode,
+}) => {
   const { quantityTypes } = useContext(QuantityTypeContext);
   const { quantities } = useContext(MealQuantityContext);
+  const { mealFoods, releaseMealFoods } = useContext(MealFoodsContext);
 
   const [modal, setModal] = useState(false);
   const toggle = (e) => {
@@ -32,7 +40,15 @@ export default ({ food, addIngredient, removeIngredient }) => {
           <i
             className="fa fa-lg fa-trash"
             onClick={() => {
+              // if (!editMode) {
               removeIngredient(food);
+              // } else {
+              //   const relatedMealFoods =
+              //     mealFoods.filter((mF) => mF.mealId === selectedMealId) || [];
+              //   const chosenMealFood =
+              //     relatedMealFoods.find((rMF) => rMF.foodId === food.id) || {};
+              //   releaseMealFoods(chosenMealFood);
+              // }
             }}
           ></i>
         </div>

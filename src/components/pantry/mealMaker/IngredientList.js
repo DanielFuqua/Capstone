@@ -4,8 +4,9 @@ import Ingredient from "./Ingredient";
 export default ({
   addIngredient,
   ingredients,
-
+  selectedMealId,
   removeIngredient,
+  editMode,
 }) => {
   return (
     <>
@@ -17,6 +18,8 @@ export default ({
               addIngredient={addIngredient}
               food={food}
               removeIngredient={removeIngredient}
+              selectedMealId={selectedMealId}
+              editMode={editMode}
             />
           );
         })}
