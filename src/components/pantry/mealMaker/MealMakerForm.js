@@ -271,7 +271,11 @@ export default ({
         </section>
 
         <form className="mealMakerForm">
-          <h1 className="mealMakerForm__title">Meal Maker</h1>
+          {editMode ? (
+            <h1 className="mealMakerForm__title">Meal Editor</h1>
+          ) : (
+            <h1 className="mealMakerForm__title">Meal Maker</h1>
+          )}
           <br></br>
           {/* Display list of ingredient */}
           <fieldset>
@@ -282,6 +286,8 @@ export default ({
                   addIngredient={addIngredient}
                   ingredients={ingredients}
                   removeIngredient={removeIngredient}
+                  selectedMealId={selectedMealId}
+                  editMode={editMode}
                 />
               }
             </div>
@@ -344,7 +350,6 @@ export default ({
             <div className="form-group">
               <label htmlFor="mealype">Meal Type: </label>
               <select
-                defaultValue=""
                 onChange={(e) => setMealTypeId(e.target.value)}
                 name="mealType"
                 id="mealType"
